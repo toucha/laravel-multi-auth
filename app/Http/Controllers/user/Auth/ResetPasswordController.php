@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\user\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 
 class ResetPasswordController extends Controller
 {
@@ -32,6 +34,17 @@ class ResetPasswordController extends Controller
     }
 
     protected function guard(){
-        return Auth::guard('web_admin');
+        return Auth::guard('web');
+    }
+
+    public function showResetForm(Request $request, $token = null)
+    {
+        return view('user.auth.passwords.reset')->with(
+            ['token' => $token, 'email' => $request->email]
+        );
+    }
+
+    public function broker(){
+        return Password::broker('users');
     }
 }

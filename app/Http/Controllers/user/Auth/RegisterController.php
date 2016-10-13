@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\user\Auth;
 
 use App\Admin;
 use App\User;
@@ -29,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/user/home';
 
     /**
      * Create a new controller instance.
@@ -38,7 +38,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest:web');
     }
 
     /**
@@ -60,11 +60,11 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return Admin
+     * @return User
      */
     protected function create(array $data)
     {
-        return Admin::create([
+        return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
@@ -72,6 +72,10 @@ class RegisterController extends Controller
     }
 
     protected function guard(){
-        return Auth::guard('web_admin');
+        return Auth::guard('web');
+    }
+
+    public function showRegistrationForm(){
+        return view('user.auth.register');
     }
 }

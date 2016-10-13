@@ -5,20 +5,20 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class RedirectIfAuthenticated
+class AdminRedirectIfAuthenticated
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+
+    public function handle($request, Closure $next, $guard = 'web_admin')
     {
         if (Auth::guard($guard)->check()) {
-            return redirect('/user/home');
+            return redirect('/admin/home');
         }
 
         return $next($request);
